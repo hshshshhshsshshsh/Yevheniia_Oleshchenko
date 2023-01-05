@@ -12,4 +12,28 @@ describe("DropBox", () => {
     });
     done();
   });
+
+  it("Upload", (done) => {
+    fs.readFile(
+      path.join(__dirname, "../src/file.txt"),
+      "utf8",
+      (err, contents) => {
+        if (err) {
+          console.log(err);
+          done.fail("FILE NOT FOUND");
+        } else {
+          dropbox
+            .filesUpload({ path: "/file.txt", contents })
+            .then((response: DropboxResponse<files.FileMetadata>) => {
+              expect(response.status).toEqual(200);
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done.fail("Upload FAILED");
+            });
+        }
+      }
+    );
+  });
 });
