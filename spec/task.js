@@ -21,3 +21,24 @@ const loginAsAdmin = async () => {
   const goToDashboard = By.xpath("//a/span[normalize-space()='Dashboard']");
   await driver.wait(until.elementLocated(goToDashboard), 20 * 1000);
 };
+
+const navigate = async () => {
+  const adminLink = By.xpath("//a/span[normalize-space()='Admin']");
+  await driver.findElement(adminLink).click();
+  const adminPageTitle = By.xpath("//h6[normalize-space()='Admin']");
+  await driver.wait(until.elementLocated(adminPageTitle), 20 * 1000);
+
+  const jobSelectInput = By.xpath(
+    "//li/span[contains(normalize-space(),'Job')]"
+  );
+  await driver.findElement(jobSelectInput).click();
+  const jobTitlesLink = By.xpath("//ul/li/a[normalize-space()='Job Titles']");
+  await driver.findElement(jobTitlesLink).click();
+  const jobPageTitle = By.xpath("//h6[normalize-space()='Job Titles']");
+  await driver.wait(until.elementLocated(jobPageTitle), 20 * 1000);
+
+  const addButton = By.css(".orangehrm-header-container button");
+  await driver.findElement(addButton).click();
+  const addJobPageTitle = By.xpath("//h6[normalize-space()='Add Job Title']");
+  await driver.wait(until.elementLocated(addJobPageTitle), 20 * 1000);
+};
