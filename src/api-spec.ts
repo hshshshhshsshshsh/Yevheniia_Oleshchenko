@@ -36,4 +36,17 @@ describe("DropBox", () => {
       }
     );
   });
+
+  it("GetFileMetadata", (done) => {
+    dropbox
+      .filesGetMetadata({ path: "/file.txt" })
+      .then((response: any) => {
+        expect(response.status).toEqual(200);
+        done();
+      })
+      .catch((err: Error<files.GetMetadataError>) => {
+        console.log(err);
+        done.fail("GetFileMetadata FAILED");
+      });
+  });
 });
