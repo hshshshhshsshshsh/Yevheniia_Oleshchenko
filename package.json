@@ -1,0 +1,15 @@
+{
+  "name": "selenium-home-task",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine spec/task.js"
+  },
+  "author": "qazplm",
+  "license": "ISC",
+  "dependencies": {
+    "chromedriver": "^107.0.3",
+    "selenium-webdriver": "^4.6.1"
+  }
+}
