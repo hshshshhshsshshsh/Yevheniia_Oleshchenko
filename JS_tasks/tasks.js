@@ -59,3 +59,18 @@ const n_pairs = (A, target) => {
   return n;
 };
 console.log(n_pairs([1, 3, 6, 2, 2, 0, 4, 5], 5));
+
+// TASK5
+
+const meet_list = (list) =>
+  list
+    .toUpperCase()
+    .split(";")
+    .map((person) => person.split(":").reverse())
+    .sort()
+    .reduce((acc, person) => (acc += `(${person[0]}, ${person[1]})`), "");
+console.log(
+  meet_list(
+    "Fred:Corwill;Wilfred:Corwill;Barney:TornBull;Betty:Tornbull;Bjon:Tornbull;Raphael:Corwill;Alfred:Corwill"
+  )
+);
