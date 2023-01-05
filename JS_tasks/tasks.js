@@ -44,3 +44,18 @@ console.log(digital_root(16));
 console.log(digital_root(942));
 console.log(digital_root(132189));
 console.log(digital_root(493193));
+
+// TASK4
+
+const n_pairs = (A, target) => {
+  let n = 0;
+  for (let i = 0; i < A.length; i++) {
+    for (let j = i + 1; j < A.length; j++) {
+      if (A[i] + A[j] === target) {
+        n++;
+      }
+    }
+  }
+  return n;
+};
+console.log(n_pairs([1, 3, 6, 2, 2, 0, 4, 5], 5));
