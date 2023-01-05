@@ -26,3 +26,21 @@ const first_non_repeating_letter = (input) => {
 };
 console.log(first_non_repeating_letter("stress"));
 console.log(first_non_repeating_letter("sTreSS"));
+
+// TASK3
+
+const digital_root = (N) => {
+  const N_string = N.toString();
+  let suma = 0;
+  for (let i = 0; i < N_string.length; i++) {
+    suma += parseInt(N_string[i]);
+  }
+  if (suma < 10) {
+    return suma;
+  }
+  return digital_root(suma);
+};
+console.log(digital_root(16));
+console.log(digital_root(942));
+console.log(digital_root(132189));
+console.log(digital_root(493193));
