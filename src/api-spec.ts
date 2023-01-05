@@ -49,4 +49,17 @@ describe("DropBox", () => {
         done.fail("GetFileMetadata FAILED");
       });
   });
+
+  it("Delete", (done) => {
+    dropbox
+      .filesDeleteV2({ path: "/file.txt" })
+      .then((response: DropboxResponse<files.DeleteResult>) => {
+        expect(response.status).toEqual(200);
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done.fail("Delete FAILED");
+      });
+  });
 });
