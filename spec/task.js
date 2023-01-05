@@ -42,3 +42,92 @@ const navigate = async () => {
   const addJobPageTitle = By.xpath("//h6[normalize-space()='Add Job Title']");
   await driver.wait(until.elementLocated(addJobPageTitle), 20 * 1000);
 };
+
+describe("New Jobs", () => {
+  describe("when user is logged in as admin", () => {
+    beforeEach(async () => {
+      await loginAsAdmin();
+      await navigate();
+    });
+
+    it("can create and remove job titles", async () => {
+      // додати нову вакансію
+      const testJobTitle = "Barber";
+      const testJobDescription = "Cutting hair";
+      const testNote = "Have good skills";
+
+      await driver
+        .findElement(By.css(".oxd-form input"))
+        .sendKeys(testJobTitle);
+      await driver
+        .findElement(
+          By.css(".oxd-form textarea[placeholder='Type description here']")
+        )
+        .sendKeys(testJobDescription);
+      await driver
+        .findElement(By.css(".oxd-form textarea[placeholder='Add note']"))
+        .sendKeys(testNote);
+      await driver
+        .findElement(By.xpath("//button[normalize-space()='Save']"))
+        .click();
+      console.log("New Job was added.");
+
+      await driver.wait(
+        until.elementLocated(
+          By.xpath("//div[contains(@class, 'oxd-table-header-cell')]")
+        ),
+        20 * 1000
+      );
+
+      // перевірити чи додалась вакансія
+      const addedJobTitle = By.xpath(
+        `//div[contains(text(), '${testJobTitle}')]`
+      );
+      const addedJobDescription = By.xpath(
+        `//div[contains(text(), '${testJobDescription}')]`
+      );
+      const newTitle = await driver
+        .findElement(addedJobTitle)
+        .then((el) => el)
+        .catch((e) => console.log("New job title is not found"));
+      const newDescription = await driver
+        .findElement(addedJobDescription)
+        .then((el) => el)
+        .catch((e) => console.log("New job description is not found"));
+      expect(newTitle && newDescription).toBeDefined();
+
+      // видалити новостворену вакансію
+      const checkboxes = await driver.findElements(
+        By.xpath(
+          `//div[contains(normalize-space(), '${testJobTitle}')]/preceding::i`
+        )
+      );
+      await checkboxes[checkboxes.length - 1].click();
+      await driver
+        .findElement(
+          By.xpath("//button[contains(normalize-space(), 'Delete Selected')]")
+        )
+        .click();
+      await driver
+        .findElement(
+          By.xpath("//button[contains(normalize-space(), 'Yes, Delete')]")
+        )
+        .click();
+      console.log("New Job was deleted.");
+
+      // перевірити чи видалилась вакансія
+      const deletedTitle = await driver
+        .findElement(addedJobTitle)
+        .then((el) => el)
+        .catch((e) => console.log("Deleted job title is not found"));
+      const deletedDescription = await driver
+        .findElement(addedJobDescription)
+        .then((el) => el)
+        .catch((e) => console.log("Deleted job description is not found"));
+      expect(deletedTitle && deletedDescription).not.toBeDefined();
+    });
+
+    // закрити браузер після закінченння виконання тестів
+    afterEach(() => driver.quit());
+  });
+});
